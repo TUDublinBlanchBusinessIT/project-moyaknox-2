@@ -1,13 +1,24 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "fitstack",
     "slug": "snack-061ae681-ebb0-4301-8ba5-c64aefb38acd",
+=======
+    "name": "FitStack",
+    "slug": "FitStack",
+>>>>>>> 64cea71281cb4daa6a4a2ac6938d004dc3ef3516
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+<<<<<<< HEAD
     "splash": {
       "image": "./assets/splash.png",
+=======
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+>>>>>>> 64cea71281cb4daa6a4a2ac6938d004dc3ef3516
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,6 +33,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+<<<<<<< HEAD
     }
   }
 }
+=======
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
+>>>>>>> 64cea71281cb4daa6a4a2ac6938d004dc3ef3516
