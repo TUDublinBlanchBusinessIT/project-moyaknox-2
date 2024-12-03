@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 export default function App() {
-  const [username, setUsername] = useState(''); // State for Username
-  const [password, setPassword] = useState(''); // State for Password
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     alert(`Username: ${username}\nPassword: ${password}`);
@@ -27,13 +27,20 @@ export default function App() {
         style={styles.input}
         placeholder="Enter Password"
         placeholderTextColor="#999"
-        secureTextEntry // Makes input text hidden
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
 
       {/* Login Button */}
-      <Button title="Login" onPress={handleLogin} />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      {/* Another Button (e.g., Register) */}
+      <TouchableOpacity style={[styles.button, styles.spacing]} onPress={() => alert('Register clicked!')}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -60,5 +67,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 16,
     marginBottom: 15,
+  },
+  button: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#fff', // White background
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#001f3f', // Navy text
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  spacing: {
+    marginTop: 15, // Add space between buttons
   },
 });
