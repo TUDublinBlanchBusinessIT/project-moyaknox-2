@@ -1,47 +1,66 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { app } from './firebaseConfig'; 
+
+const db = getFirestore(app);
 
 export default function App() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleLogin = async () => {
+    try {
+      // Reference the 'usernames' collection in firebase
+      const usernamesCollection = collection(db, 'usernames');
 
-  const handleLogin = () => {
-    alert(`Username: ${username}\nPassword: ${password}`);
+      // Query for documents where the field "email" matches the entered email on login page
+      const q = query(usernamesCollection, where('email', '==', email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // Extract the first matching document
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+
+        // Check if the password matches
+        if (userData.password === password) {
+          alert('Login Successful!');
+        } else {
+          alert('Incorrect password!');
+        }
+      } else {
+        alert('Email not found!');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to FitStack!</Text>
-
-      {/* Username Input */}
+      <Text style={styles.title}>FitStack</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter Username"
+        placeholder="Email"
         placeholderTextColor="#999"
-        value={username}
-        onChangeText={setUsername}
+        value={email}
+        onChangeText={setEmail}
       />
-
-      {/* Password Input */}
       <TextInput
         style={styles.input}
-        placeholder="Enter Password"
+        placeholder="Password"
         placeholderTextColor="#999"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
-
-      {/* Login Button */}
-
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-
-      {/* Register */}
-      <TouchableOpacity style={[styles.button, styles.spacing]} onPress={() => alert('Register clicked!')}>
-        <Text style={styles.buttonText}>Register</Text>
+      <TouchableOpacity style={styles.link} onPress={() => alert('Go to Register!')}>
+        <Text style={styles.linkText}>Not registered? Click here</Text>
       </TouchableOpacity>
     </View>
   );
@@ -68,23 +87,27 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     fontSize: 16,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   button: {
     width: '80%',
     height: 50,
-    backgroundColor: '#fff', // White background
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
+    marginBottom: 15,
   },
   buttonText: {
-    color: '#001f3f', // Navy text
+    color: '#001f3f',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  spacing: {
-    marginTop: 12, // Add space between buttons
-    marginBottom: 15,
+  link: {
+    marginTop: 10,
+  },
+  linkText: {
+    color: '#fff',
+    textDecorationLine: 'underline',
   },
 });
