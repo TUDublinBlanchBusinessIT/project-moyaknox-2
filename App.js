@@ -1,113 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-import { app } from './firebaseConfig'; 
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './screens/LoginScreen'; 
+import SignUpScreen from './screens/SignUpScreen'; 
 
-const db = getFirestore(app);
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    try {
-      // Reference the 'usernames' collection in firebase
-      const usernamesCollection = collection(db, 'usernames');
-
-      // Query for documents where the field "email" matches the entered email on login page
-      const q = query(usernamesCollection, where('email', '==', email));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        // Extract the first matching document
-        const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data();
-
-        // Check if the password matches
-        if (userData.password === password) {
-          alert('Login Successful!');
-        } else {
-          alert('Incorrect password!');
-        }
-      } else {
-        alert('Email not found!');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-      alert('Something went wrong. Please try again.');
-    }
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>FitStack</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#999"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#999"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.link} onPress={() => alert('Go to Register!')}>
-        <Text style={styles.linkText}>Not registered? Click here</Text>
-      </TouchableOpacity>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={SignUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#001f3f',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
-    marginBottom: 30,
-  },
-  input: {
-    width: '80%',
-    height: 50,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  button: {
-    width: '80%',
-    height: 50,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginBottom: 15,
-  },
-  buttonText: {
-    color: '#001f3f',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 10,
-  },
-  linkText: {
-    color: '#fff',
-    textDecorationLine: 'underline',
-  },
-});
