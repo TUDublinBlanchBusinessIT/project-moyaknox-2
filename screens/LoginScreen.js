@@ -5,7 +5,7 @@ import { app } from '../firebaseConfig';
 
 const db = getFirestore(app);
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,6 +25,7 @@ export default function LoginScreen({ navigation }) {
         // Check if the password matches
         if (userData.password === password) {
           alert('Login Successful!');
+          navigation.navigate('Home');
         } else {
           alert('Incorrect password!');
         }

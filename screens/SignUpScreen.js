@@ -24,7 +24,7 @@ export default function SignUpScreen({ navigation }) {
       // Save data to Firestore
       await setDoc(docRef, { email, password });
       Alert.alert('Success', 'Account created successfully!');
-      navigation.navigate('Login'); // Redirect to the login screen
+      navigation.navigate('Home'); // Redirect to the home screen
     } catch (error) {
       console.error('Error signing up:', error);
       Alert.alert('Error', 'Something went wrong. Please try again.');
