@@ -1,16 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to FitStack!</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Login')}
-        >
-            <text style={styles.buttonText}>Log Out</text>
-        </TouchableOpacity>
+      <Text style={styles.title}>Welcome to FitStack!</Text>
+      <Button
+        title="Log Out"
+        onPress={() => {
+          // Add logout functionality here if needed
+          navigation.navigate('Login'); // Navigate back to login screen
+        }}
+        color="#fff"
+      />
     </View>
   );
 }
@@ -20,36 +22,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#001f3f',
+    backgroundColor: '#fff', // Set background to white
     padding: 20,
   },
-
-  text: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-
   title: {
     fontSize: 24,
-    color: '#fff',
+    color: '#001F54', // Navy color for text
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 20, // Add spacing between text and button
   },
-
-  button: {
-    width:'80%',
-    height: 50,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,    
-  },
-
-  buttonText: {
-    color: '#001f3f',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-
 });
