@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   React.useLayoutEffect(() => {
@@ -15,6 +15,7 @@ export default function HomeScreen({ navigation }) {
 
 return (
   <View style={styles.container}>
+    <ScrollView style={styles.scrollView}>
       {/* Content Section */}
       <View style={styles.content}>
         <TouchableOpacity
@@ -27,8 +28,20 @@ return (
           <Text style={styles.createButtonText}>+ Create New Stack</Text>
         </TouchableOpacity>
 
-        <Text style={styles.contentText}>Welcome to the FitStack app!</Text>
-      </View>
+        {/* Liked Stacks Section */}
+        <Text style={styles.sectionTitle}>Liked Stacks</Text>
+          <View style={styles.stackPlaceholder}>
+            <Text style={styles.stackPlaceholderText}>Placeholder for liked stacks</Text>
+          </View>
+
+          
+        <Text style={styles.sectionTitle}>Trip to Milan</Text>
+          <View style={styles.stackPlaceholder}>
+            <Text style={styles.stackPlaceholderText}>Placeholder for Milan outfits</Text>
+          </View>
+        </View>
+      </ScrollView>
+
 
       {/* Footer Section */}
       <View style={styles.footer}>
@@ -47,6 +60,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
+  scrollView: {
+    flex: 1,
+    backgroundColor: '#fff',
+  }, 
 
   content: {
     flex: 4, // Main content area
@@ -74,15 +92,31 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20, // Add space below the button
   },
-  
+
   createButtonText: {
     color: '#fff', // White text color
     fontSize: 14,
     fontWeight: 'bold',
   },
-  contentText: {
+
+  sectionTitle: {
     fontSize: 16,
-    color: '#001F54', // Navy color for text
-    marginTop: 20,
+    fontWeight: 'bold',
+    color: '#001F54',
+    marginBottom: 10,
+  },
+
+  stackPlaceholder: {
+    backgroundColor: '#f0f0f0', // Light gray background for placeholders
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+
+  stackPlaceholderText: {
+    fontSize: 14,
+    color: '#666',
   },
 });
