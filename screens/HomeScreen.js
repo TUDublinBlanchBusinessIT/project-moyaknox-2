@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   React.useLayoutEffect(() => {
@@ -13,12 +13,21 @@ export default function HomeScreen({ navigation }) {
     });
   }, [navigation]);
 
-  return (
-<View style={styles.container}>
+return (
+  <View style={styles.container}>
       {/* Content Section */}
       <View style={styles.content}>
-        <Text>Welcome to the FitStack app!</Text>
-        {/* You can add additional content here */}
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={() => {
+            // Handle the "Create New Stack" button click
+            alert('Create New Stack clicked!');
+          }}
+        >
+          <Text style={styles.createButtonText}>+ Create New Stack</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.contentText}>Welcome to the FitStack app!</Text>
       </View>
 
       {/* Footer Section */}
@@ -36,26 +45,44 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
   },
 
   content: {
     flex: 4, // Main content area
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
+
   footer: {
-    flex: 0.5, // Footer for the "Log Out" button
     justifyContent: 'flex-end', // Align button at the bottom
     alignItems: 'center', // Center button horizontally
-    paddingBottom: 20, // Add spacing at the bottom
+    padding: 20, // Add spacing at the bottom
   },
-  
+
   headerTitle: {
     fontSize: 18,
     color: '#001F54', // Navy color for text
     fontWeight: 'bold',
+  },
+
+  createButton: {
+    backgroundColor: '#001F54', // Navy background
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    marginBottom: 20, // Add space below the button
+  },
+  
+  createButtonText: {
+    color: '#fff', // White text color
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  contentText: {
+    fontSize: 16,
+    color: '#001F54', // Navy color for text
+    marginTop: 20,
   },
 });
