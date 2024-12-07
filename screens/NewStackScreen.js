@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, StyleSheet } from 'react-native';
+import Footer from '../components/Footer'; 
 
 export default function NewStackScreen({ navigation }) {
   return (
@@ -11,26 +11,15 @@ export default function NewStackScreen({ navigation }) {
       {/* Add text here */}
     </View>
 
-    {/* Footer Section */}
-      <View style={styles.footer}>
-        {/* Home Button */}
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={() => navigation.navigate('Home')} // Navigate to Home Screen
-        >
-          <Icon name="cube" size={24} color="#001F54" />
-        </TouchableOpacity>
-      </View>
-    </View>
-    
+    {/* Reusable Footer */}
+    <Footer navigation={navigation} />
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
   },
   title: {
@@ -43,19 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'center', // Center the button horizontally
-    alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: '#fff', // Light background for footer
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
-  },
-
-  footerButton: {
-    marginHorizontal: 20, // Add spacing between footer buttons
+    padding: 20,  
   },
 });

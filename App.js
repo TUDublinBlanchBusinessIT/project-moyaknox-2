@@ -5,6 +5,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from './screens/HomeScreen'; // Import HomeScreen
 import NewStackScreen from './screens/NewStackScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import { getFirestore, collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { app } from './firebaseConfig'; // Import Firebase config
 
@@ -94,6 +95,20 @@ export default function App() {
             headerTintColor: '#001F54',
           }}
         />
+
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            headerTitle: 'Profile',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            headerTintColor: '#001F54',
+          }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
