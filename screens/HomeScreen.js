@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function HomeScreen({ navigation }) {
   React.useLayoutEffect(() => {
@@ -43,13 +44,14 @@ return (
       </ScrollView>
 
 
-      {/* Footer Section */}
+        {/* Footer Section */}
       <View style={styles.footer}>
-        <Button
-          title="Log Out"
-          onPress={() => navigation.navigate('Login')}
-          color="#001F54"
-        />
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('Home')} // Navigate to Home
+        >
+          <Icon name="cube" size={24} color="#001F54" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -74,9 +76,17 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    justifyContent: 'flex-end', // Align button at the bottom
-    alignItems: 'center', // Center button horizontally
-    padding: 20, // Add spacing at the bottom
+    flexDirection: 'row',
+    justifyContent: 'center', // Center the buttons horizontally
+    alignItems: 'center',
+    paddingVertical: 10,
+    backgroundColor: '#fff', // Light background for footer
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
+
+  footerButton: {
+    marginHorizontal: 20, // Space between buttons
   },
 
   headerTitle: {
