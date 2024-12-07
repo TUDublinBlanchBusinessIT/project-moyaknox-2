@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from './screens/HomeScreen'; // Import HomeScreen
+import NewStackScreen from './screens/NewStackScreen';
 import { getFirestore, collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { app } from './firebaseConfig'; // Import Firebase config
 
@@ -52,6 +53,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
+        {/* Login Screen */}
         <Stack.Screen name="Login">
           {(props) => (
             <LoginScreen
@@ -62,6 +64,8 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+
+        {/* Register Screen */}
         <Stack.Screen name="Register">
           {(props) => (
             <SignUpScreen
@@ -72,10 +76,26 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+
+        {/* Home Screen */}
         <Stack.Screen name="Home" component={HomeScreen}/>
+      
+
+        {/* New Stack Screen */}
+        <Stack.Screen
+          name="NewStack"
+          component={NewStackScreen}
+          options={{
+            headerTitle: 'Create New Stack',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            headerTintColor: '#001F54',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
 

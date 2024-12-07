@@ -21,8 +21,8 @@ return (
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => {
-            // Handle the "Create New Stack" button click
-            alert('Create New Stack clicked!');
+             // Navigate to the "NewStack" screen
+             navigation.navigate('NewStack');
           }}
         >
           <Text style={styles.createButtonText}>+ Create New Stack</Text>
@@ -107,8 +107,11 @@ const styles = StyleSheet.create({
   },
 
   stackPlaceholder: {
+    width: 400, 
+    height: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#f0f0f0', // Light gray background for placeholders
-    padding: 15,
     borderRadius: 10,
     marginBottom: 10,
     borderWidth: 1,
@@ -118,5 +121,6 @@ const styles = StyleSheet.create({
   stackPlaceholderText: {
     fontSize: 14,
     color: '#666',
+    textAlign: 'center',
   },
 });
