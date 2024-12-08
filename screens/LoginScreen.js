@@ -36,6 +36,7 @@ export default function LoginScreen({ navigation, }) {
       console.error('Error logging in:', error);
       alert('Something went wrong. Please try again.');
     }
+    
   };
 
   return (

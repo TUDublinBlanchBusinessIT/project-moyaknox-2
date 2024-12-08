@@ -5,10 +5,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function Footer({ navigation }) {
   return (
     <View style={styles.footer}>
-      {/* Empty space for alignment */}
-      <View style={{ flex: 1 }}></View>
+      {/* Star Button on the left */}
+      <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: 20 }}>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('InspirationFeed')} // Replace with the actual screen name
+        >
+          <Icon name="star" size={24} color="#001F54" />
+        </TouchableOpacity>
+      </View>
 
-      {/* Home Button */}
+      {/* Home Button in the middle */}
       <View style={styles.footerButtonContainer}>
         <TouchableOpacity
           style={styles.footerButton}
@@ -18,7 +25,7 @@ export default function Footer({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Profile Button */}
+      {/* Profile Button on the right */}
       <View style={{ flex: 1, alignItems: 'flex-end', paddingRight: 20 }}>
         <TouchableOpacity
           style={styles.footerButton}
@@ -36,7 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
-    backgroundColor: '#f9f9f9', // Light background for footer
+    backgroundColor: '#f9f9f9',
     borderTopWidth: 1,
     borderTopColor: '#ddd',
   },

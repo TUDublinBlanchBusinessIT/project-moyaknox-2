@@ -20,6 +20,8 @@ return (
     <ScrollView style={styles.scrollView}>
       {/* Content Section */}
       <View style={styles.content}>
+          
+        {/* Create New Stack Button */}
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => {
@@ -37,7 +39,7 @@ return (
           </View>
 
           
-        <Text style={styles.sectionTitle}>Trip to Milan</Text>
+        <Text style={styles.sectionTitle}>Your First Stack</Text>
           <View style={styles.stackPlaceholder}>
             <Text style={styles.stackPlaceholderText}>Placeholder for Milan outfits</Text>
           </View>
@@ -113,4 +115,5 @@ const styles = StyleSheet.create({
     color: '#666',
     textAlign: 'center',
   },
+
 });

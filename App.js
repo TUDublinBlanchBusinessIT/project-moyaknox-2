@@ -8,21 +8,29 @@ import NewStackScreen from './screens/NewStackScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { getFirestore, collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { app } from './firebaseConfig'; // Import Firebase config
+import InspirationFeed from './screens/InspirationFeed';
+//import { UserProvider } from './UserContext';
+
+
 
 const db = getFirestore(app);
-
 const Stack = createStackNavigator();
 
+
 export default function App() {
+  
+
   const handleLogin = async (email, password, navigation) => {
     try {
       const usernamesCollection = collection(db, 'usernames');
       const q = query(usernamesCollection, where('email', '==', email));
       const querySnapshot = await getDocs(q);
 
+      
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
+
 
         if (userData.password === password) {
           alert('Login Successful!');
@@ -78,9 +86,9 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        {/* Home Screen */}
-        <Stack.Screen name="Home" component={HomeScreen}/>
-      
+
+        <Stack.Screen name="Home" component={HomeScreen} />
+
 
         {/* New Stack Screen */}
         <Stack.Screen
@@ -95,20 +103,20 @@ export default function App() {
             headerTintColor: '#001F54',
           }}
         />
+      
+      <Stack.Screen name="Profile" component={ProfileScreen} />
 
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
+      <Stack.Screen
+          name="InspirationFeed"
+          component={InspirationFeed}
           options={{
-            headerTitle: 'Profile',
+            headerTitle: 'Inspiration Feed',
             headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#fff',
-            },
+            headerStyle: { backgroundColor: '#fff' },
             headerTintColor: '#001F54',
           }}
         />
-        
+
       </Stack.Navigator>
     </NavigationContainer>
   );
