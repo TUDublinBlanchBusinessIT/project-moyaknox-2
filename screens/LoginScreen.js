@@ -68,10 +68,7 @@ export default function LoginScreen({ navigation }) {
       {/* Login Button */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          console.log('Login button pressed');
-          navigation.navigate('Home');  // Trigger login process
-        }}
+        onPress={handleLogin} // Use handleLogin instead of direct navigation
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -98,12 +95,3 @@ const styles = StyleSheet.create({
   link: { marginTop: 10 },
   linkText: { color: '#fff', textDecorationLine: 'underline' },
 });
-
-
-
-
-
-
-
-
-

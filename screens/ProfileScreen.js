@@ -11,7 +11,7 @@ export default function ProfileScreen({ navigation }) {
       <ScrollView style={styles.scrollView}>
         <View style={styles.content}>
           <Text style={styles.title}>My Profile</Text>
-          <Text style={styles.subtitle}>Hello, {userName || 'User'}!</Text>
+          <Text style={styles.subtitle}>Hello, {userName}!</Text>
         </View>
       </ScrollView>
       <Footer navigation={navigation} />
