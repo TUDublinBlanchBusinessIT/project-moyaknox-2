@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Footer from '../components/Footer'; 
+
 
 export default function NewStackScreen({ navigation }) {
   return (

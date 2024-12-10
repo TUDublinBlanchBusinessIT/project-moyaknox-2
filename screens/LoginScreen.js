@@ -3,6 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import { app } from '../firebaseConfig';
 import { UserContext } from '../UserContext'; // Import UserContext
+import Footer from '../components/Footer'; // Import the Footer component
+
+
 
 const db = getFirestore(app);
 

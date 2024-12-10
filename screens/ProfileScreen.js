@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Footer from '../components/Footer';
 import { UserContext } from '../UserContext';
 
+
 export default function ProfileScreen({ navigation }) {
   const { userName } = useContext(UserContext);
 

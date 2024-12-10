@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome } from '@expo/vector-icons'; // Use Expo's vector icons
 
 export default function Footer({ navigation }) {
   return (
@@ -11,7 +11,7 @@ export default function Footer({ navigation }) {
           style={styles.footerButton}
           onPress={() => navigation.navigate('InspirationFeed')} // Replace with the actual screen name
         >
-          <Icon name="star" size={24} color="#001F54" />
+          <FontAwesome name="star" size={24} color="#001F54" />
         </TouchableOpacity>
       </View>
 
@@ -21,7 +21,7 @@ export default function Footer({ navigation }) {
           style={styles.footerButton}
           onPress={() => navigation.navigate('Home')}
         >
-          <Icon name="cube" size={24} color="#001F54" />
+          <FontAwesome name="cube" size={24} color="#001F54" />
         </TouchableOpacity>
       </View>
 
@@ -31,7 +31,7 @@ export default function Footer({ navigation }) {
           style={styles.footerButton}
           onPress={() => navigation.navigate('Profile')}
         >
-          <Icon name="user" size={24} color="#001F54" />
+          <FontAwesome name="user" size={24} color="#001F54" />
         </TouchableOpacity>
       </View>
     </View>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     borderTopWidth: 1,
     borderTopColor: '#ddd',
+    height: 60, // Explicit height to avoid layout issues
   },
   footerButtonContainer: {
     flex: 1, // Center the cube button
