@@ -9,32 +9,25 @@ import ProfileScreen from './screens/ProfileScreen';
 import { getFirestore, collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { app } from './firebaseConfig'; // Import Firebase config
 import InspirationFeed from './screens/InspirationFeed';
-//import { UserProvider } from './UserContext';
-
-
 
 const db = getFirestore(app);
 const Stack = createStackNavigator();
 
-
 export default function App() {
-  
-
   const handleLogin = async (email, password, navigation) => {
     try {
       const usernamesCollection = collection(db, 'usernames');
       const q = query(usernamesCollection, where('email', '==', email));
       const querySnapshot = await getDocs(q);
 
-      
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
 
-
         if (userData.password === password) {
           alert('Login Successful!');
-          navigation.navigate('Home'); // Navigate to Home Screen
+          console.log('Navigating to Home with:', { userEmail: email }); // Log userEmail for debugging
+          navigation.navigate('Home', { userEmail: email }); // Pass the logged-in user's email
         } else {
           alert('Incorrect password!');
         }
@@ -52,7 +45,8 @@ export default function App() {
       const usernamesCollection = collection(db, 'usernames');
       await setDoc(doc(usernamesCollection, email), { email, password });
       alert('Account created successfully!');
-      navigation.navigate('Home'); // Navigate to Home Screen
+      console.log('Navigating to Home with:', { userEmail: email }); // Log userEmail for debugging
+      navigation.navigate('Home', { userEmail: email }); // Pass the registered user's email
     } catch (error) {
       console.error('Error registering:', error);
       alert('Something went wrong. Please try again.');
@@ -62,7 +56,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        {/* Login Screen */}
         <Stack.Screen name="Login">
           {(props) => (
             <LoginScreen
@@ -73,8 +66,6 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-
-        {/* Register Screen */}
         <Stack.Screen name="Register">
           {(props) => (
             <SignUpScreen
@@ -86,27 +77,22 @@ export default function App() {
           )}
         </Stack.Screen>
 
+        <Stack.Screen name="Home">
+        {(props) => <HomeScreen {...props} />}
+        </Stack.Screen>
 
-        <Stack.Screen name="Home" component={HomeScreen} />
-
-
-        {/* New Stack Screen */}
         <Stack.Screen
           name="NewStack"
           component={NewStackScreen}
           options={{
             headerTitle: 'Create New Stack',
             headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#fff',
-            },
+            headerStyle: { backgroundColor: '#fff' },
             headerTintColor: '#001F54',
           }}
         />
-      
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-
-      <Stack.Screen
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen
           name="InspirationFeed"
           component={InspirationFeed}
           options={{
@@ -116,9 +102,7 @@ export default function App() {
             headerTintColor: '#001F54',
           }}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
