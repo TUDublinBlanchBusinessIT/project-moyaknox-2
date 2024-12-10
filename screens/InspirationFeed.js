@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Footer from '../components/Footer'; // Import the Footer component
 
-export default function InspirationFeed() {
+export default function InspirationFeed({ navigation, route }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the Inspiration Feed!</Text>
+      <View style={styles.content}>
+        <Text style={styles.text}>Welcome to the Inspiration Feed!</Text>
+      </View>
+      {/* Add Footer for Bottom Navigation */}
+      <Footer navigation={navigation} route={route} />
     </View>
   );
 }
@@ -12,9 +17,12 @@ export default function InspirationFeed() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   text: {
     fontSize: 24,
@@ -22,3 +30,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
