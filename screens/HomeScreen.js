@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   createButtonText: { color: '#fff', fontSize: 14, fontWeight: 'bold' },
   sectionTitle: { fontSize: 16, fontWeight: 'bold', color: '#001F54', marginBottom: 10 },
   stackPlaceholder: {
-    width: '100%',
+    width: '50%',
     height: 160,
     justifyContent: 'center',
     alignItems: 'center',
