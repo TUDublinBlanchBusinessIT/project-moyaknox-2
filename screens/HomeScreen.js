@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native';
 import { UserContext } from '../UserContext';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Footer from '../components/Footer'; // Ensure the Footer is correctly imported
 
 export default function HomeScreen({ navigation }) {
-  const { userName, userEmail, setUserName } = useContext(UserContext);
+  const { userName, userEmail, setUserName, likedStacks } = useContext(UserContext); // Access likedStacks from context
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -37,9 +37,24 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.createButtonText}>+ Create New Stack</Text>
           </TouchableOpacity>
           <Text style={styles.sectionTitle}>Liked Stacks</Text>
-          <View style={styles.stackPlaceholder}>
-            <Text style={styles.stackPlaceholderText}>Placeholder for liked stacks</Text>
-          </View>
+          {likedStacks.length > 0 ? (
+            <FlatList
+              data={likedStacks}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.likedStackItem}>
+                  <Image source={item.src} style={styles.likedStackImage} resizeMode="contain" />
+                  <Text style={styles.likedStackName}>{item.name}</Text>
+                </View>
+              )}
+              horizontal // Display liked stacks in a horizontal scrollable list
+              contentContainerStyle={styles.likedStacksList}
+            />
+          ) : (
+            <View style={styles.stackPlaceholder}>
+              <Text style={styles.stackPlaceholderText}>No liked stacks yet.</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
       <Footer navigation={navigation} />
@@ -61,7 +76,7 @@ const styles = StyleSheet.create({
   createButtonText: { color: '#fff', fontSize: 14, fontWeight: 'bold' },
   sectionTitle: { fontSize: 16, fontWeight: 'bold', color: '#001F54', marginBottom: 10 },
   stackPlaceholder: {
-    width: '50%',
+    width: '100%',
     height: 160,
     justifyContent: 'center',
     alignItems: 'center',
@@ -73,4 +88,22 @@ const styles = StyleSheet.create({
   },
   stackPlaceholderText: { fontSize: 14, color: '#666', textAlign: 'center' },
   welcomeMessage: { fontSize: 16, color: '#001F54', marginBottom: 20 },
+  likedStacksList: {
+    paddingVertical: 10,
+  },
+  likedStackItem: {
+    marginRight: 15,
+    alignItems: 'center',
+  },
+  likedStackImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+  },
+  likedStackName: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 5,
+    textAlign: 'center',
+  },
 });
