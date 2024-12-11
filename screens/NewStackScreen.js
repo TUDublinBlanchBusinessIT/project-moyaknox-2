@@ -1,11 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Footer from '../components/Footer';
-import { getFirestore, collection, addDoc, doc } from 'firebase/firestore';
-import { app } from '../firebaseConfig';
+import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { db } from '../firebaseConfig'; // Ensure your Firebase config is correctly imported
 import { UserContext } from '../UserContext';
-
-const db = getFirestore(app);
 
 export default function NewStackScreen({ navigation }) {
   const [stackName, setStackName] = useState('');
@@ -23,20 +21,29 @@ export default function NewStackScreen({ navigation }) {
     }
 
     try {
-      // Reference the user's document
+      // Reference the user's document in Firebase
       const userDocRef = doc(db, 'usernames', userEmail);
 
-      // Reference the "stacks" subcollection under the user's document
-      const stacksCollection = collection(userDocRef, 'stacks');
+      // Retrieve the existing document to ensure it exists
+      const userDocSnap = await getDoc(userDocRef);
 
-      // Add a new document to the "stacks" subcollection
-      await addDoc(stacksCollection, {
-        name: stackName, // Add the stack name here
-        createdAt: new Date(), // Optional: Add a timestamp
-      });
+      if (userDocSnap.exists()) {
+        // Update the stacks field by appending the new stack name
+        await updateDoc(userDocRef, {
+          stacks: arrayUnion(stackName), // Use arrayUnion to avoid duplicates
+        });
 
-      Alert.alert('Success', 'Stack saved successfully!');
-      setStackName(''); // Clear the input field after saving
+        // Clear the input field and show success message
+        setStackName('');
+        Alert.alert('Success', `Stack "${stackName}" saved successfully!`, [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Home'), // Navigate back to HomeScreen
+          },
+        ]);
+      } else {
+        Alert.alert('Error', 'User document does not exist in Firebase.');
+      }
     } catch (error) {
       console.error('Error saving stack:', error);
       Alert.alert('Error', 'Failed to save stack. Please try again.');
@@ -78,6 +85,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#f9f9f9',
   },
-  saveButton: { backgroundColor: '#001F54', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 5 },
+  saveButton: {
+    backgroundColor: '#001F54',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
   saveButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });

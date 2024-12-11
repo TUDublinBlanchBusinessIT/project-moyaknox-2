@@ -1,41 +1,47 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native';
 import { UserContext } from '../UserContext';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import Footer from '../components/Footer'; // Ensure the Footer is correctly imported
+import Footer from '../components/Footer';
 
 export default function HomeScreen({ navigation }) {
   const { userName, userEmail, setUserName, likedStacks } = useContext(UserContext); // Access likedStacks from context
+  const [userStacks, setUserStacks] = useState([]); // State to store user's created stacks
 
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUserData = async () => {
       if (userEmail) {
         const userRef = doc(db, 'usernames', userEmail);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-          setUserName(userSnap.data().name); // Update UserContext with fetched name
+          const userData = userSnap.data();
+          setUserName(userData.name); // Update UserContext with fetched name
+          setUserStacks(userData.stacks || []); // Update userStacks state with fetched stacks
         }
       }
     };
 
-    if (!userName) {
-      fetchUserName(); // Fetch username if not already set
-    }
-  }, [userName, userEmail]);
+    fetchUserData(); // Fetch user data when the component loads
+  }, [userEmail, setUserName]);
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.content}>
+          {/* Welcome Message */}
           <Text style={styles.welcomeMessage}>Hello, {userName || 'User'}!</Text>
+
+          {/* Create New Stack Button */}
           <TouchableOpacity
             style={styles.createButton}
             onPress={() => navigation.navigate('NewStack')}
           >
             <Text style={styles.createButtonText}>+ Create New Stack</Text>
           </TouchableOpacity>
+
+          {/* Liked Stacks Section */}
           <Text style={styles.sectionTitle}>Liked Stacks</Text>
           {likedStacks.length > 0 ? (
             <FlatList
@@ -53,6 +59,25 @@ export default function HomeScreen({ navigation }) {
           ) : (
             <View style={styles.stackPlaceholder}>
               <Text style={styles.stackPlaceholderText}>No liked stacks yet.</Text>
+            </View>
+          )}
+
+          {/* User's Created Stacks Section */}
+          <Text style={styles.sectionTitle}>Your Stacks</Text>
+          {userStacks.length > 0 ? (
+            <FlatList
+              data={userStacks}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.userStackItem}>
+                  <Text style={styles.userStackName}>{item}</Text>
+                </View>
+              )}
+              contentContainerStyle={styles.userStacksList}
+            />
+          ) : (
+            <View style={styles.stackPlaceholder}>
+              <Text style={styles.stackPlaceholderText}>No stacks created yet.</Text>
             </View>
           )}
         </View>
@@ -77,7 +102,7 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 16, fontWeight: 'bold', color: '#001F54', marginBottom: 10 },
   stackPlaceholder: {
     width: '100%',
-    height: 160,
+    height: 80,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
@@ -104,6 +129,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginTop: 5,
+    textAlign: 'center',
+  },
+  userStacksList: {
+    paddingVertical: 10,
+  },
+  userStackItem: {
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#f0f0f0',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    width: '100%',
+  },
+  userStackName: {
+    fontSize: 14,
+    color: '#001F54',
     textAlign: 'center',
   },
 });
