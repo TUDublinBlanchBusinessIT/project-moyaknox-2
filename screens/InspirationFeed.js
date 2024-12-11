@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, FlatList } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
+import { UserContext } from '../UserContext';
 import Footer from '../components/Footer';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Import the FontAwesome icons
 
 const images = [
   { id: '1', name: 'Skiing Adventure', src: require('../assets/skiing.jpg') },
@@ -12,6 +14,17 @@ const images = [
 
 export default function InspirationFeed({ navigation }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const { likedStacks, setLikedStacks } = useContext(UserContext); // Access liked stacks from context
+
+  const toggleLike = (image) => {
+    if (likedStacks.some((likedImage) => likedImage.id === image.id)) {
+      // Remove from liked stacks
+      setLikedStacks(likedStacks.filter((likedImage) => likedImage.id !== image.id));
+    } else {
+      // Add to liked stacks
+      setLikedStacks([...likedStacks, image]);
+    }
+  };
 
   // Filter images based on the search term
   const filteredImages = images.filter((image) =>
@@ -20,7 +33,6 @@ export default function InspirationFeed({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Header and Search */}
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Inspiration Feed</Text>
 
@@ -42,6 +54,13 @@ export default function InspirationFeed({ navigation }) {
               <View style={styles.imageContainer}>
                 <Image source={item.src} style={styles.image} resizeMode="contain" />
                 <Text style={styles.caption}>{item.name}</Text>
+                <TouchableOpacity onPress={() => toggleLike(item)}>
+                  <Icon
+                    name="heart"
+                    size={24}
+                    color={likedStacks.some((likedImage) => likedImage.id === item.id) ? 'red' : '#001F54'} // Red for liked, navy for not liked
+                  />
+                </TouchableOpacity>
               </View>
             )}
             numColumns={2} // Display images in two columns
@@ -64,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   contentContainer: {
-    flex: 1, // Allow the main content to take up all available space
+    flex: 1,
   },
   title: {
     fontSize: 24,
